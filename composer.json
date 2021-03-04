@@ -1,0 +1,10 @@
+{
+    "require": {
+        "nemiah/php-fints": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bonk\\": "api/"
+        }
+    }
+}
