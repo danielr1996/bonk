@@ -1,0 +1,4 @@
+*.lck
+.idea/
+.gradle/
+build
