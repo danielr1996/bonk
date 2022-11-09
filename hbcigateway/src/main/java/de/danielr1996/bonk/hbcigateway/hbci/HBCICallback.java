@@ -40,7 +40,7 @@ public class HBCICallback extends AbstractHBCICallback {
             case NEED_PT_TAN -> {
                 try {
                     String publisherId = UUID.randomUUID().toString();
-                    IMqttClient publisher = new MqttClient("tcp://localhost:1883",publisherId);
+                    IMqttClient publisher = new MqttClient(System.getenv("BONK_MQTT_URL"),System.getenv("BONK_MQTT_ID"));
                     publisher.connect();
                     TanRequest tanRequest = TanRequest.builder().id(this.REQUESTID).build();
                     System.out.println("=> "+tanRequest);

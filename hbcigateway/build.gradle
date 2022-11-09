@@ -1,6 +1,11 @@
 plugins {
-    id 'java'
+    id 'application'
     id "io.freefair.lombok" version "6.5.1"
+}
+apply plugin : "java"
+
+application {
+    mainClassName = "de.danielr1996.bonk.hbcigateway.Main"
 }
 
 group 'de.danielr1996.bonk'

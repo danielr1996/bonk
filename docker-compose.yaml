@@ -2,12 +2,12 @@ services:
   mqtt:
     image: efrecon/mosquitto:1.5.5
     restart: unless-stopped
-#    environment:
-#      - MOSQUITTO_INCLUDE_DIR=/mosquitto/config/sections/
-#      - MOSQUITTO__PERSISTENCE__AUTOSAVE_ON_CHANGES=true
-#      - MOSQUITTO__PERSISTENCE__AUTOSAVE_INTERVAL=100
-#      - MOSQUITTO__PERSISTENCE__PERSISTENCE=true
-#      - MOSQUITTO__PERSISTENCE__PERSISTENCE_LOCATION=/mosquitto/data/
-#      - MOSQUITTO__LOGGING__LOG_DEST=stderr
     ports:
       - 1883:1883
+  hbcigateway:
+    build:
+      context: hbcigateway
+      dockerfile: Dockerfile
+    environment:
+      BONK_MQTT_URL: tcp://mqtt:1883
+      BONK_MQTT_ID: "3fc620d0-8f13-433d-beb7-ee22b234101b"

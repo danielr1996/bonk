@@ -10,13 +10,12 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.kapott.hbci.GV_Result.GVRKUms;
 
 import java.util.List;
-import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String publisherId = UUID.randomUUID().toString();
-        IMqttClient subscriber = new MqttClient("tcp://localhost:1883",publisherId);
+        IMqttClient subscriber = new MqttClient(System.getenv("BONK_MQTT_URL"),System.getenv("BONK_MQTT_URL"));
         subscriber.connect();
+        System.out.println("Connect to mqtt at "+System.getenv("BONK_MQTT_URL"));
         subscriber.subscribe("statementrequest", ((topic, message) -> {
             StatementRequest sr = new ObjectMapper().readValue(message.getPayload(),StatementRequest.class);
             System.out.println("<= "+sr);
