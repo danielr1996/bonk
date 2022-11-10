@@ -11,3 +11,5 @@ services:
     environment:
       BONK_MQTT_URL: tcp://mqtt:1883
       BONK_MQTT_ID: "3fc620d0-8f13-433d-beb7-ee22b234101b"
+    depends_on:
+      - mqtt
