@@ -45,10 +45,5 @@ public class Main {
     public static class StatementResponse {
         String id;
         List<GVRKUms.UmsLine> statements;
-
-        @Override
-        public String toString(){
-            return "StatementResponse(id=\""+this.id+"\")";
-        }
     }
 }
