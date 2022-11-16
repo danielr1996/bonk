@@ -1,15 +1,13 @@
 import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {useGetCategoriesQuery, useGetStatementsQuery} from "../../redux/api";
+import {Badge} from "@tremor/react";
 
 export const Categories = ()=>{
-    const [categories, setCategories] = useState([])
-    useEffect(()=>{
-        (async()=>{
-            const res = await fetch('http://localhost:3030/categories')
-            setCategories(await res.json())
-        })()
-    },[])
-    return <ul>
-        {categories.map(category=><li key={category}><Link to={`/categories/${category}`}>{category}</Link></li>)}
-    </ul>
+    const {data: categories} = useGetCategoriesQuery()
+    return <>
+        {(categories ||[]).map(category=><Link key={category} to={`/statements?categories=${category}`}>
+            <Badge text={category || 'Keine Kategorie'} color={category ? 'gray' : 'red'}/>
+        </Link>)}
+    </>
 }

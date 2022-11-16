@@ -21,7 +21,7 @@ const dynamicBaseQuery: BaseQueryFn = async (args, WebApi, extraOptions) => {
 
 export const backend = createApi({
     reducerPath: 'backend',
-    tagTypes: ['statements','accounts'],
+    tagTypes: ['statements','accounts','categories'],
     baseQuery: dynamicBaseQuery,
     endpoints: (builder) => ({
         XstatementRequest: builder.mutation<any, string>({
@@ -40,11 +40,11 @@ export const backend = createApi({
             providesTags: ['accounts'],
             query: () => `users/me/accounts`,
         }),
-        getStatements: builder.query<Statement[], {start: Temporal.PlainDate, end: Temporal.PlainDate}>({
+        getStatements: builder.query<Statement[], {start: Temporal.PlainDate, end: Temporal.PlainDate, categories?:(string|null)[]}>({
             providesTags: ['statements'],
-            query: ({start,end})=> {
-                console.log(`statements?${new URLSearchParams({start: start.toJSON(),end: end.toJSON()})}`)
-                return `statements?${new URLSearchParams({start: start.toJSON(),end: end.toJSON()})}`
+            query: ({start,end,categories})=>  {
+                const categoryParams = (categories||[]).map(category=>category || 'null').map(category=>new URLSearchParams({categories: category}))
+                return `statements?${new URLSearchParams({start: start.toJSON(),end: end.toJSON()})}&${categoryParams.join('&')}`
             },
             transformResponse: (statements: any[])=>{
                 return statements.map(statement=>{
@@ -55,13 +55,20 @@ export const backend = createApi({
                     }
                 })
             }
-        })
+        }),
+        getCategories: builder.query<string[], void>({
+            providesTags: ['categories'],
+            query: ()=> {
+                return `categories`
+            },
+        }),
 
     }),
 })
 export const {
     useGetAccountsQuery,
     useGetStatementsQuery,
+    useGetCategoriesQuery,
     useXstatementRequestMutation,
     useXtanResponseMutation,
     useXclassifyMutation,

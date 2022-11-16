@@ -7,7 +7,6 @@ import {Dashboard} from "./pages/Dashboard";
 import {Statements} from "./pages/statements/Statements";
 import {Statement} from "./pages/statements/Statement";
 import {Categories} from "./pages/categories/Categories";
-import {Category} from "./pages/categories/Category";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -36,10 +35,7 @@ const router = createBrowserRouter([
                     {
                         path: "",
                         element: <Categories />,
-                    },{
-                        path: ":category",
-                        element: <Category />,
-                    },
+                    }
                 ]
             },
         ]
