@@ -18,6 +18,7 @@ export const StatementTable: FunctionComponent<Props> = ({statements})=>{
         <TableHead>
             <TableRow>
                 <TableHeaderCell textAlignment="text-left">Buchungsdatum</TableHeaderCell>
+                <TableHeaderCell textAlignment="text-left">Valutadatum</TableHeaderCell>
                 <TableHeaderCell textAlignment="text-left">Betrag</TableHeaderCell>
                 <TableHeaderCell textAlignment="text-left">Gegenpartei</TableHeaderCell>
                 <TableHeaderCell textAlignment="text-left">Kategorie</TableHeaderCell>
@@ -28,6 +29,7 @@ export const StatementTable: FunctionComponent<Props> = ({statements})=>{
             {(statements || []).map(statement=>
                 <TableRow key={statement.id}>
                     <TableCell textAlignment="text-left">{statement.booked.toLocaleString()}</TableCell>
+                    <TableCell textAlignment="text-left">{statement.valuta.toLocaleString()}</TableCell>
                     <TableCell textAlignment="text-left">{statement.value}</TableCell>
                     <TableCell textAlignment="text-left">{statement.other.name}</TableCell>
                     <TableCell textAlignment="text-left"><Link to={`/categories/${statement.category}`}>{statement.category}</Link></TableCell>

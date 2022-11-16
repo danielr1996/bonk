@@ -3,6 +3,7 @@ import {getConfigValue} from "../lib/config";
 import {getToken} from "../auth/AuthWrapper";
 import {Statement} from "../models/Statement";
 import {Temporal} from "@js-temporal/polyfill";
+import {start} from "repl";
 
 const dynamicBaseQuery: BaseQueryFn = async (args, WebApi, extraOptions) => {
     const rawBaseQuery = fetchBaseQuery({
@@ -31,13 +32,20 @@ export const backend = createApi({
             invalidatesTags: [],
             query: ({id,tan, iban}) => ({url: `ingest/tan/${iban}?tan=${tan}&id=${id}`, method: 'POST'})
         }),
+        Xclassify: builder.mutation<any, void>({
+            invalidatesTags: [],
+            query: () => ({url: `classify`})
+        }),
         getAccounts: builder.query<any[], void>({
             providesTags: ['accounts'],
             query: () => `users/me/accounts`,
         }),
-        getStatements: builder.query<Statement[], void>({
+        getStatements: builder.query<Statement[], {start: Temporal.PlainDate, end: Temporal.PlainDate}>({
             providesTags: ['statements'],
-            query: ()=> `statements`,
+            query: ({start,end})=> {
+                console.log(`statements?${new URLSearchParams({start: start.toJSON(),end: end.toJSON()})}`)
+                return `statements?${new URLSearchParams({start: start.toJSON(),end: end.toJSON()})}`
+            },
             transformResponse: (statements: any[])=>{
                 return statements.map(statement=>{
                     return {
@@ -56,4 +64,5 @@ export const {
     useGetStatementsQuery,
     useXstatementRequestMutation,
     useXtanResponseMutation,
+    useXclassifyMutation,
 } = backend

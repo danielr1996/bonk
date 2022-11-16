@@ -5,6 +5,6 @@ import {useGetStatementsQuery} from "../../redux/api";
 
 export const Statements = ()=>{
     const dateRange = useContext(DateContext)
-    const {data: statements} = useGetStatementsQuery()
+    const {data: statements} = useGetStatementsQuery(dateRange)
     return <StatementTable statements={statements} />
 }

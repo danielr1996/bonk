@@ -11,6 +11,7 @@ export const SyncButton: FunctionComponent = ()=>{
     const onClick = async () => {
         // @ts-ignore
         const response = await sync(account.iban)
+        console.log(response)
         // @ts-ignore
         if (!response.data.finished) {
             // @ts-ignore

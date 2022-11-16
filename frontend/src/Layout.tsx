@@ -4,6 +4,7 @@ import React, {createContext, FunctionComponent, PropsWithChildren, useState} fr
 import {Temporal} from "@js-temporal/polyfill";
 import {TemporalDatePicker} from "./TemporalDatePicker";
 import {SyncButton} from "./SyncButton";
+import {ClassifyButton} from "./ClassifyButton";
 
 export const DateContext = createContext({start: Temporal.Now.plainDateISO(),end: Temporal.Now.plainDateISO()})
 
@@ -19,6 +20,7 @@ export const Layout: FunctionComponent<PropsWithChildren> = ({children}) => {
                     <Button text="Categories" handleClick={() => navigate('/categories')}/>
                     <TemporalDatePicker handleSelect={(start: Temporal.PlainDate,end:Temporal.PlainDate)=>setDate({start,end})}/>
                     <SyncButton/>
+                    <ClassifyButton/>
                 </Flex>
             </Card>
             <DateContext.Provider value={date}>
