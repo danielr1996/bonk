@@ -7,6 +7,8 @@ import {useSearchParams} from "react-router-dom";
 export const Statements = ()=>{
     const dateRange = useContext(DateContext)
     const [categories] = useSearchParams()
-    const {data: statements} = useGetStatementsQuery({...dateRange,categories: [...categories].map(([,category])=>category)})
-    return <StatementTable statements={statements} />
+    const {data: statements} = useGetStatementsQuery({...dateRange,categories: [...categories].filter(([key])=>key==='categories').map(([,category])=>category)})
+    return <>
+        <StatementTable statements={statements} />
+    </>
 }
