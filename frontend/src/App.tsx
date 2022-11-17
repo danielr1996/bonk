@@ -7,6 +7,7 @@ import {Dashboard} from "./pages/Dashboard";
 import {Statements} from "./pages/statements/Statements";
 import {Statement} from "./pages/statements/Statement";
 import {Categories} from "./pages/categories/Categories";
+import {Settings} from "./pages/Settings";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -35,6 +36,15 @@ const router = createBrowserRouter([
                     {
                         path: "",
                         element: <Categories />,
+                    }
+                ]
+            },
+            {
+                path: "settings",
+                children: [
+                    {
+                        path: "",
+                        element: <Settings />,
                     }
                 ]
             },

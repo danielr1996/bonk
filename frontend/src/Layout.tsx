@@ -18,6 +18,7 @@ export const Layout: FunctionComponent<PropsWithChildren> = ({children}) => {
                     <Button text="Dashboard" handleClick={() => navigate('/')}/>
                     <Button text="Statements" handleClick={() => navigate('/statements')}/>
                     <Button text="Categories" handleClick={() => navigate('/categories')}/>
+                    <Button text="Settings" handleClick={() => navigate('/settings')}/>
                     <TemporalDatePicker handleSelect={(start: Temporal.PlainDate,end:Temporal.PlainDate)=>setDate({start,end})}/>
                     <SyncButton/>
                     <ClassifyButton/>

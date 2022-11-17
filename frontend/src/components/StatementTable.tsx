@@ -23,6 +23,7 @@ export const StatementTable: FunctionComponent<Props> = ({statements})=>{
                 <TableHeaderCell textAlignment="text-left">Betrag</TableHeaderCell>
                 <TableHeaderCell textAlignment="text-left">Gegenpartei</TableHeaderCell>
                 <TableHeaderCell textAlignment="text-left">Kategorie</TableHeaderCell>
+                <TableHeaderCell textAlignment="text-left">Wiederkehrend</TableHeaderCell>
                 <TableHeaderCell textAlignment="text-left">Verwendungszweck</TableHeaderCell>
             </TableRow>
         </TableHead>
@@ -36,6 +37,9 @@ export const StatementTable: FunctionComponent<Props> = ({statements})=>{
                     <TableCell textAlignment="text-left"><Link to={`/categories/${statement.category}`}>
                         <Badge text={statement.category || 'Keine Kategorie'} color={statement.category ? 'gray' : 'red'}/>
                     </Link></TableCell>
+                    <TableCell textAlignment="text-left">
+                        <Badge text={statement.recurring ? 'Wiederkehrend' : 'Einmalig'} color={statement.recurring ? 'yellow' : 'blue'}/>
+                    </TableCell>
                     <TableCell textAlignment="text-left">{statement.usage}</TableCell>
                 </TableRow>
             )}

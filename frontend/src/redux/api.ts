@@ -25,20 +25,24 @@ export const backend = createApi({
     baseQuery: dynamicBaseQuery,
     endpoints: (builder) => ({
         XstatementRequest: builder.mutation<any, string>({
-            invalidatesTags: [],
+            invalidatesTags: (res)=>res?.finished ? ['statements'] :[],
             query: (iban: string) => `ingest/${iban}`
         }),
         XtanResponse: builder.mutation<any, {id: string, tan: string, iban: string}>({
-            invalidatesTags: [],
+            invalidatesTags: (res)=>res?.finished ? ['statements'] :[],
             query: ({id,tan, iban}) => ({url: `ingest/tan/${iban}?tan=${tan}&id=${id}`, method: 'POST'})
         }),
         Xclassify: builder.mutation<any, void>({
-            invalidatesTags: [],
+            invalidatesTags: ['statements'],
             query: () => ({url: `classify`})
         }),
         getAccounts: builder.query<any[], void>({
             providesTags: ['accounts'],
             query: () => `users/me/accounts`,
+        }),
+        setAccounts: builder.mutation<void, any[]>({
+            invalidatesTags: ['accounts'],
+            query: (accounts) => ({url: `users/me/accounts`, method: 'PUT', body: accounts}),
         }),
         getStatements: builder.query<Statement[], {start: Temporal.PlainDate, end: Temporal.PlainDate, categories?:(string|null)[]}>({
             providesTags: ['statements'],
@@ -67,6 +71,7 @@ export const backend = createApi({
 })
 export const {
     useGetAccountsQuery,
+    useSetAccountsMutation,
     useGetStatementsQuery,
     useGetCategoriesQuery,
     useXstatementRequestMutation,
