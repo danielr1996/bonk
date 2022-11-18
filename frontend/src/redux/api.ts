@@ -44,11 +44,13 @@ export const backend = createApi({
             invalidatesTags: ['accounts'],
             query: (accounts) => ({url: `users/me/accounts`, method: 'PUT', body: accounts}),
         }),
-        getStatements: builder.query<Statement[], {start: Temporal.PlainDate, end: Temporal.PlainDate, categories?:(string|null)[]}>({
+        getStatements: builder.query<Statement[], {start: Temporal.PlainDate, end: Temporal.PlainDate, categories?:(string|null)[], recurring: 'true'|'false'|'neither'}>({
             providesTags: ['statements'],
-            query: ({start,end,categories})=>  {
+            query: ({start,end,categories, recurring})=>  {
                 const categoryParams = categories ? '&'+categories.map(category=>category || 'null').map(category=>new URLSearchParams({categories: category})).join('&'):''
-                return `statements?${new URLSearchParams({start: start.toJSON(),end: end.toJSON()})}${categoryParams}`
+                const dateParams = new URLSearchParams({start: start.toJSON(),end: end.toJSON()})
+                const recurringParams = `${recurring !== 'neither' ? new URLSearchParams({recurring}) : ''}`
+                return `statements?${dateParams}${categoryParams}${recurringParams}`
             },
             transformResponse: (statements: any[])=>{
                 return statements.map(statement=>{

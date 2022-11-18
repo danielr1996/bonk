@@ -1,16 +1,15 @@
-import {useContext, useState} from "react";
-import {DateContext} from "../../Layout";
 import {StatementTable} from "../../components/StatementTable";
 import {useGetStatementsQuery} from "../../redux/api";
-import {useSearchParams} from "react-router-dom";
+import {useAppSelector} from "../../redux/hooks";
 
 export const Statements = ()=>{
-    const dateRange = useContext(DateContext)
-    const [searchParams] = useSearchParams()
-    const categories = [...searchParams].filter(([key])=>key==='categories').map(([,category])=>category)
+    const range = useAppSelector(({date})=>date)
+    const recurring = useAppSelector(({recurring})=>recurring.value)
+    const categories = useAppSelector(({category})=>category.value)
     const {data: statements} = useGetStatementsQuery({
-        ...dateRange,
-        ...(categories.length >0 ?{categories}:{})
+        ...range,
+        categories,
+        recurring,
     })
     return <>
         <StatementTable statements={statements} />
