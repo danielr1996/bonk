@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import {updateUrlWithSearchParams} from "../../lib/updateUrlWithSearchParams";
 import {useSearchParams} from "react-router-dom";
 import {useGetCategoriesQuery} from "../../redux/api";
-import {MultiSelectBox, MultiSelectBoxItem} from "@tremor/react"
+import {SelectBox, SelectBoxItem,MultiSelectBox, MultiSelectBoxItem} from "@tremor/react"
 import {setCategories} from "../../redux/categorySlice";
 export const CategoryFilter = () => {
     const {data: availableCategories} = useGetCategoriesQuery()
@@ -26,21 +26,20 @@ export const CategoryFilter = () => {
     }
 
     return <>
-        {JSON.stringify(categories)}
-
-        <MultiSelectBox
-            defaultValues={categories}
-            handleSelect={handleClick}
+        {JSON.stringify(categories[0])}
+        <SelectBox
+            defaultValue={categories[0]}
+            handleSelect={value=>handleClick([value])}
             placeholder="Select Category"
             maxWidth="max-w-none"
             marginTop="mt-0"
         >
-            {(['Tanken','Amazon']).map(category=>
-                    <MultiSelectBoxItem
+            {(availableCategories ||[]).map(category=>
+                    <SelectBoxItem
                         key={category}
                         text={category || 'Keine Kategorie'}
                         value={category}
                     />)}
-        </MultiSelectBox>
+        </SelectBox>
     </>
 }

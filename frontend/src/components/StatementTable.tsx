@@ -10,6 +10,7 @@ import {
 } from "@tremor/react";
 import {Link} from "react-router-dom";
 import {Statement} from "../models/Statement";
+import {RecurringFilter} from "./filter/RecurringFilter";
 
 type Props = {
     statements?: Statement[]
@@ -34,9 +35,9 @@ export const StatementTable: FunctionComponent<Props> = ({statements})=>{
                     <TableCell textAlignment="text-left">{statement.valuta.toLocaleString()}</TableCell>
                     <TableCell textAlignment="text-left"><Badge text={`${statement.value} €`} color="blue"/></TableCell>
                     <TableCell textAlignment="text-left">{statement.other.name}</TableCell>
-                    <TableCell textAlignment="text-left"><Link to={`?categories=${statement.category}`} replace={false}>
+                    <TableCell textAlignment="text-left">
                         <Badge text={statement.category || 'Keine Kategorie'} color={statement.category ? 'gray' : 'red'}/>
-                    </Link></TableCell>
+                    </TableCell>
                     <TableCell textAlignment="text-left">
                         <Badge text={statement.recurring ? 'Wiederkehrend' : 'Einmalig'} color={statement.recurring ? 'yellow' : 'blue'}/>
                     </TableCell>
