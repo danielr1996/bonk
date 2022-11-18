@@ -34,7 +34,7 @@ export const StatementTable: FunctionComponent<Props> = ({statements})=>{
                     <TableCell textAlignment="text-left">{statement.valuta.toLocaleString()}</TableCell>
                     <TableCell textAlignment="text-left"><Badge text={`${statement.value} €`} color="blue"/></TableCell>
                     <TableCell textAlignment="text-left">{statement.other.name}</TableCell>
-                    <TableCell textAlignment="text-left"><Link to={`/categories/${statement.category}`}>
+                    <TableCell textAlignment="text-left"><Link to={`/statements?category${statement.category}`}>
                         <Badge text={statement.category || 'Keine Kategorie'} color={statement.category ? 'gray' : 'red'}/>
                     </Link></TableCell>
                     <TableCell textAlignment="text-left">

@@ -47,8 +47,8 @@ export const backend = createApi({
         getStatements: builder.query<Statement[], {start: Temporal.PlainDate, end: Temporal.PlainDate, categories?:(string|null)[]}>({
             providesTags: ['statements'],
             query: ({start,end,categories})=>  {
-                const categoryParams = (categories||[]).map(category=>category || 'null').map(category=>new URLSearchParams({categories: category}))
-                return `statements?${new URLSearchParams({start: start.toJSON(),end: end.toJSON()})}&${categoryParams.join('&')}`
+                const categoryParams = categories ? '&'+categories.map(category=>category || 'null').map(category=>new URLSearchParams({categories: category})).join('&'):''
+                return `statements?${new URLSearchParams({start: start.toJSON(),end: end.toJSON()})}${categoryParams}`
             },
             transformResponse: (statements: any[])=>{
                 return statements.map(statement=>{

@@ -7,7 +7,7 @@ export const TemporalDatePicker = ({defaultStartDate, defaultEndDate, ...props}:
 
 
     const onChange = (start: Date, end: Date) => {
-        props.handleSelect(toPlainDate(start), toPlainDate(end))
+        props.handleSelect({start: toPlainDate(start), end: toPlainDate(end)})
     }
 
     return <Datepicker
