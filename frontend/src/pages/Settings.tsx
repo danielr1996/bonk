@@ -1,6 +1,8 @@
 import {useGetAccountsQuery, useSetAccountsMutation} from "../redux/api";
 import {Button} from "@tremor/react";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import {SyncButton} from "../SyncButton";
+import {ClassifyButton} from "../ClassifyButton";
 
 const example = `
 [
@@ -26,6 +28,9 @@ export const Settings= ()=>{
     }
 
     return <>
+
+        <SyncButton/>
+        <ClassifyButton/>
         <h1>Settings</h1>
         <textarea cols={100} rows={25} onChange={e=>setSettings(e.target.value)} value={settings} />
         <Button text="Save" handleClick={()=>onClick()}/>

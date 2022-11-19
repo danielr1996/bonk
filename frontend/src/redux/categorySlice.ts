@@ -14,9 +14,13 @@ export const categorySlice = createSlice({
         setCategories: (state, action: PayloadAction<(string|null)[]>) => {
             state.value = [...action.payload]
         },
+        addCategory: (state, action: PayloadAction<string|null>)=> void state.value.push(action.payload),
+        removeCategory: (state, action: PayloadAction<string|null>)=> {
+            state.value = state.value.filter(value=>value!==action.payload)
+        },
     },
 })
 
-export const {setCategories} = categorySlice.actions
+export const {setCategories, addCategory, removeCategory} = categorySlice.actions
 
 export default categorySlice.reducer

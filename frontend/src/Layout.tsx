@@ -21,8 +21,6 @@ export const Layout: FunctionComponent<PropsWithChildren> = ({children}) => {
                     <DateFilter/>
                     <CategoryFilter />
                     <RecurringFilter/>
-                    <SyncButton/>
-                    <ClassifyButton/>
                 </Flex>
             </Card>
             {children}

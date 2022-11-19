@@ -3,43 +3,46 @@ import React, {useEffect} from "react";
 import {updateUrlWithSearchParams} from "../../lib/updateUrlWithSearchParams";
 import {useSearchParams} from "react-router-dom";
 import {useGetCategoriesQuery} from "../../redux/api";
-import {SelectBox, SelectBoxItem,MultiSelectBox, MultiSelectBoxItem} from "@tremor/react"
-import {setCategories} from "../../redux/categorySlice";
+import {Block} from "@tremor/react"
+import {addCategory, removeCategory, setCategories} from "../../redux/categorySlice";
+
 export const CategoryFilter = () => {
     const {data: availableCategories} = useGetCategoriesQuery()
     const dispatch = useAppDispatch()
     const categories = useAppSelector(({category}) => category.value)
     const [searchParams] = useSearchParams()
-    useEffect(()=>{
-        const categoryParams = [...searchParams].filter(([key])=>key==='categories').map(([,category])=>category)
+
+    // Update state with params from url
+    useEffect(() => {
+        const categoryParams = [...searchParams].filter(([key]) => key === 'categories').map(([, category]) => category)
         dispatch(setCategories(categoryParams))
-    },[dispatch])
-    const handleClick = (categories: (string|null)[]) => {
-        dispatch(setCategories(categories))
+    }, [dispatch])
+
+    // Update url with params from state
+    useEffect(() => {
         updateUrlWithSearchParams(searchParams => {
             searchParams.delete('categories')
-            categories.map(category=>{
+            categories.map(category => {
                 searchParams.append('categories', category || 'null')
             })
             return searchParams
         })
+    }, [categories])
+
+    const handleChange = (e: any) => {
+        const value = e.target.value !== '' ? e.target.value : null
+        if (e.target.checked) {
+            dispatch(addCategory(value))
+        } else {
+            dispatch(removeCategory(value))
+        }
     }
 
-    return <>
-        {JSON.stringify(categories[0])}
-        <SelectBox
-            defaultValue={categories[0]}
-            handleSelect={value=>handleClick([value])}
-            placeholder="Select Category"
-            maxWidth="max-w-none"
-            marginTop="mt-0"
-        >
-            {(availableCategories ||[]).map(category=>
-                    <SelectBoxItem
-                        key={category}
-                        text={category || 'Keine Kategorie'}
-                        value={category}
-                    />)}
-        </SelectBox>
-    </>
+    return <Block>
+        {(availableCategories || []).map(category =>
+            <label key={category}><input onChange={handleChange} type="checkbox" name="categories"
+                                         defaultChecked={categories.includes(category)}
+                                         value={category || ''}/>{category || 'Keine Kategorie'}</label>
+        )}
+    </Block>
 }
