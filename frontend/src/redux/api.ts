@@ -62,6 +62,20 @@ export const backend = createApi({
                 })
             }
         }),
+        getStatementsGroupedByDate: builder.query<any[], {start: Temporal.PlainDate, end: Temporal.PlainDate} >({
+            providesTags: [],
+            query: ({start, end})=> {
+                const dateParams = new URLSearchParams({start: start.toJSON(),end: end.toJSON()})
+                return `statements/bydate?${dateParams}`
+            },
+        }),
+        getStatementsGroupedByCategory: builder.query<any[], {start: Temporal.PlainDate, end: Temporal.PlainDate} >({
+            providesTags: [],
+            query: ({start, end})=> {
+                const dateParams = new URLSearchParams({start: start.toJSON(),end: end.toJSON()})
+                return `statements/bycategory?${dateParams}`
+            },
+        }),
         getCategories: builder.query<string[], void>({
             providesTags: ['categories'],
             query: ()=> {
@@ -82,6 +96,8 @@ export const {
     useGetAccountsQuery,
     useSetAccountsMutation,
     useGetStatementsQuery,
+    useGetStatementsGroupedByDateQuery,
+    useGetStatementsGroupedByCategoryQuery,
     useGetCategoriesQuery,
     useGetBalanceQuery,
     useXstatementRequestMutation,
