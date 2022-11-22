@@ -62,11 +62,12 @@ export const backend = createApi({
                 })
             }
         }),
-        getStatementsGroupedByDate: builder.query<any[], {start: Temporal.PlainDate, end: Temporal.PlainDate} >({
+        getStatementsGroupedByDate: builder.query<any[], {start: Temporal.PlainDate, end: Temporal.PlainDate, keys: string[]} >({
             providesTags: [],
-            query: ({start, end})=> {
+            query: ({start, end,keys})=> {
+                const keyParams = keys.map(key=>new URLSearchParams({keys: key})).join('&')
                 const dateParams = new URLSearchParams({start: start.toJSON(),end: end.toJSON()})
-                return `statements/bydate?${dateParams}`
+                return `statements/bydate?${dateParams}&${keyParams}`
             },
         }),
         getStatementsGroupedByCategory: builder.query<any[], {start: Temporal.PlainDate, end: Temporal.PlainDate} >({

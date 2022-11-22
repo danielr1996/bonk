@@ -6,6 +6,7 @@ import {ClassifyButton} from "./ClassifyButton";
 import {RecurringFilter} from "./components/filter/RecurringFilter";
 import {DateFilter} from "./components/filter/DateFilter";
 import {CategoryFilter} from "./components/filter/CategoryFilter";
+import {GroupyByFilter} from "./components/filter/GroupyByFilter";
 
 
 export const Layout: FunctionComponent<PropsWithChildren> = ({children}) => {
@@ -21,6 +22,7 @@ export const Layout: FunctionComponent<PropsWithChildren> = ({children}) => {
                     <DateFilter/>
                     <CategoryFilter />
                     <RecurringFilter/>
+                    <GroupyByFilter />
                 </Flex>
             </Card>
             {children}

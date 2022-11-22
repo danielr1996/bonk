@@ -4,6 +4,7 @@ import {backend} from "./api";
 import {recurringSlice} from "./recurringSlice";
 import {dateSlice} from "./dateSlice";
 import {categorySlice} from "./categorySlice";
+import {groupBySlice} from "./groupBySlice";
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
         recurring: recurringSlice.reducer,
         date: dateSlice.reducer,
         category: categorySlice.reducer,
+        groupBy: groupBySlice.reducer
     },
     middleware: (getDefaultMiddleware)=>{
         return getDefaultMiddleware({
