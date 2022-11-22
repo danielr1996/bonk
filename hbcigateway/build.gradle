@@ -3,10 +3,20 @@ plugins {
     id "io.freefair.lombok" version "6.5.1"
 }
 apply plugin : "java"
-
 application {
-    mainClassName = "de.danielr1996.bonk.hbcigateway.Main"
+    mainClass.set('de.danielr1996.bonk.hbcigateway.Main')
 }
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class':'de.danielr1996.bonk.hbcigateway.Main'
+    }
+    from {configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }}{
+        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    }
+}
+
 
 group 'de.danielr1996.bonk'
 version '1.0-SNAPSHOT'

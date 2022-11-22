@@ -23,6 +23,7 @@ export const StatementTable: FunctionComponent<Props> = ({statements})=>{
                 <TableHeaderCell textAlignment="text-left">Valutadatum</TableHeaderCell>
                 <TableHeaderCell textAlignment="text-left">Betrag</TableHeaderCell>
                 <TableHeaderCell textAlignment="text-left">Saldo</TableHeaderCell>
+                <TableHeaderCell textAlignment="text-left">Konto</TableHeaderCell>
                 <TableHeaderCell textAlignment="text-left">Gegenpartei</TableHeaderCell>
                 <TableHeaderCell textAlignment="text-left">Kategorie</TableHeaderCell>
                 <TableHeaderCell textAlignment="text-left">Wiederkehrend</TableHeaderCell>
@@ -34,6 +35,7 @@ export const StatementTable: FunctionComponent<Props> = ({statements})=>{
                 <TableRow key={statement.id}>
                     <TableCell textAlignment="text-left">{statement.booked.toLocaleString()}</TableCell>
                     <TableCell textAlignment="text-left">{statement.valuta.toLocaleString()}</TableCell>
+                    <TableCell textAlignment="text-left"><Badge text={statement.self.iban} color="cyan"/></TableCell>
                     <TableCell textAlignment="text-left"><Badge text={`${statement.value} €`} color="blue"/></TableCell>
                     <TableCell textAlignment="text-left"><Badge text={`${statement.saldo} €`} color="purple"/></TableCell>
                     <TableCell textAlignment="text-left">{statement.other.name}</TableCell>

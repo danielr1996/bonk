@@ -2,8 +2,6 @@ package de.danielr1996.bonk.hbcigateway.hbci;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Builder;
-import lombok.Data;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -37,9 +35,9 @@ public class HBCICallback extends AbstractHBCICallback {
             case NEED_BLZ -> retData.replace(0, retData.length(), BLZ);
             case NEED_USERID, NEED_CUSTOMERID -> retData.replace(0, retData.length(), ACCOUNTNUMBER);
             case NEED_PT_SECMECH -> retData.replace(0, retData.length(), "code");
+            case NEED_PT_TANMEDIA -> retData.replace(0, retData.length(), retData.toString());
             case NEED_PT_TAN -> {
                 try {
-                    String publisherId = UUID.randomUUID().toString();
                     IMqttClient publisher = new MqttClient(System.getenv("BONK_MQTT_URL"),System.getenv("BONK_MQTT_ID"));
                     publisher.connect();
                     TanRequest tanRequest = TanRequest.builder().id(this.REQUESTID).build();
@@ -76,16 +74,5 @@ public class HBCICallback extends AbstractHBCICallback {
     @Override
     public void log(String msg, int level, Date date, StackTraceElement trace) {
         System.out.println(msg);
-    }
-
-    @Data
-    public static class TanResponse{
-        String id;
-        String tan;
-    }
-    @Builder
-    @Data
-    public static class TanRequest{
-        String id;
     }
 }
