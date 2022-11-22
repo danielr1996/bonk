@@ -21,15 +21,15 @@ const dynamicBaseQuery: BaseQueryFn = async (args, WebApi, extraOptions) => {
 
 export const backend = createApi({
     reducerPath: 'backend',
-    tagTypes: ['statements','accounts','categories'],
+    tagTypes: ['statements','accounts','categories','balance'],
     baseQuery: dynamicBaseQuery,
     endpoints: (builder) => ({
         XstatementRequest: builder.mutation<any, string>({
-            invalidatesTags: (res)=>res?.finished ? ['statements'] :[],
+            invalidatesTags: (res)=>res?.finished ? ['statements','balance'] :[],
             query: (iban: string) => `ingest/${iban}`
         }),
         XtanResponse: builder.mutation<any, {id: string, tan: string, iban: string}>({
-            invalidatesTags: (res)=>res?.finished ? ['statements'] :[],
+            invalidatesTags: (res)=>res?.finished ? ['statements','balance'] :[],
             query: ({id,tan, iban}) => ({url: `ingest/tan/${iban}?tan=${tan}&id=${id}`, method: 'POST'})
         }),
         Xclassify: builder.mutation<any, void>({
@@ -41,7 +41,7 @@ export const backend = createApi({
             query: () => `users/me/accounts`,
         }),
         setAccounts: builder.mutation<void, any[]>({
-            invalidatesTags: ['accounts'],
+            invalidatesTags: ['accounts','balance'],
             query: (accounts) => ({url: `users/me/accounts`, method: 'PUT', body: accounts}),
         }),
         getStatements: builder.query<Statement[], {start: Temporal.PlainDate, end: Temporal.PlainDate, categories?:(string|null)[], recurring: 'true'|'false'|'neither'}>({
@@ -68,6 +68,13 @@ export const backend = createApi({
                 return `categories`
             },
         }),
+        getBalance: builder.query<{ account: string, balance: number }[], { iban: string }[] >({
+            providesTags: ['balance'],
+            query: (accounts)=> {
+                const accountParams = accounts.map(account=>new URLSearchParams({accounts: account.iban})).join('&')
+                return `balance?${accountParams}`
+            },
+        }),
 
     }),
 })
@@ -76,6 +83,7 @@ export const {
     useSetAccountsMutation,
     useGetStatementsQuery,
     useGetCategoriesQuery,
+    useGetBalanceQuery,
     useXstatementRequestMutation,
     useXtanResponseMutation,
     useXclassifyMutation,
